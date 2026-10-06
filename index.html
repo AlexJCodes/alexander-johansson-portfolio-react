@@ -12,9 +12,26 @@
 
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" />
+
+  <script>
+    const savedTheme = localStorage.getItem("theme");
+
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+
+    const theme =
+      savedTheme === "light" || savedTheme === "dark"
+        ? savedTheme
+        : prefersDark
+          ? "dark"
+          : "light";
+
+    document.documentElement.dataset.theme = theme;
+  </script>
 </head>
 
-<body>
+<body id="top">
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
