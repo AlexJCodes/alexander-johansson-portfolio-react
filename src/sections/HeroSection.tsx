@@ -3,7 +3,7 @@ import heroImage from "../assets/images/alexander-johansson-hero.webp";
 function HeroSection() {
   return (
     <section aria-labelledby="hero-title">
-      <div className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-content items-center gap-12 px-5 py-12 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,29rem)] lg:gap-24 lg:px-10">
+      <div className="mx-auto grid max-w-content gap-14 px-5 py-16 md:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,29rem)] lg:items-center lg:gap-28 lg:px-10 lg:py-24">
         <div>
           <h1
             id="hero-title"
@@ -13,17 +13,17 @@ function HeroSection() {
             <span className="block">Johansson</span>
           </h1>
 
-          <p className="mt-4 text-xl font-light text-muted">Frontend-utvecklare</p>
+          <p className="mt-5 text-xl font-light text-muted">Frontend-utvecklare</p>
 
-          <p className="mt-6 max-w-lg text-lg leading-body text-muted">
-            Över tio år i säljbranschen lärde mig att förstå människor. Nu tar jag med mig det
+          <p className="mt-8 max-w-lg text-lg leading-body text-muted">
+            Tio år i säljbranschen lärde mig att förstå människor. Nu tar jag med mig det
             perspektivet in i frontend.
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-4">
             <a
               href="#projekt"
-              className="inline-flex min-h-12 items-center justify-center gap-2 bg-foreground px-5 text-base font-semibold text-background transition-opacity hover:opacity-80"
+              className="inline-flex min-h-18 items-center justify-center gap-3 rounded-md bg-foreground px-7 text-base font-semibold text-background transition-opacity hover:opacity-80"
             >
               Se projekten
               <span aria-hidden="true">→</span>
@@ -33,7 +33,7 @@ function HeroSection() {
               href="/documents/alexander-johansson-cv.pdf"
               target="_blank"
               rel="noopener"
-              className="inline-flex min-h-12 items-center justify-center border border-border px-5 text-base font-semibold text-foreground transition-colors hover:border-foreground"
+              className="inline-flex min-h-18 items-center justify-center rounded-md border border-border px-7 text-base font-semibold text-foreground transition-colors hover:border-foreground"
             >
               Visa CV
             </a>
