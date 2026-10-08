@@ -2,8 +2,8 @@ import heroImage from "../assets/images/alexander-johansson-hero.webp";
 
 function HeroSection() {
   return (
-    <section aria-labelledby="hero-title">
-      <div className="mx-auto grid max-w-content gap-14 px-5 py-16 md:py-20 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,29rem)] lg:items-center lg:gap-28 lg:px-10 lg:py-24">
+    <section aria-labelledby="hero-title" className="flex min-h-[calc(100svh-4rem)] items-center">
+      <div className="mx-auto grid w-[calc(100%-2*var(--page-padding))] max-w-content gap-16 py-12 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,29rem)] lg:items-center lg:gap-24 lg:py-16">
         <div>
           <h1
             id="hero-title"
