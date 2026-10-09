@@ -1,12 +1,12 @@
-import type { Project } from "../data/projects";
+import type { Project, ProjectFilter } from "../data/projects";
 
 type ProjectCardProps = {
   project: Project;
+  matchingFilters: ProjectFilter[];
 };
 
-function ProjectCard({ project }: ProjectCardProps) {
+function ProjectCard({ project, matchingFilters }: ProjectCardProps) {
   const projectUrl = project.liveUrl ?? project.githubUrl;
-
   return (
     <article>
       <div className="relative aspect-4/3 overflow-hidden">
@@ -16,6 +16,22 @@ function ProjectCard({ project }: ProjectCardProps) {
           loading="lazy"
           className="h-full w-full object-cover"
         />
+
+        {matchingFilters.length > 0 && (
+          <ul
+            aria-label="Matchande filter"
+            className="absolute right-4 top-4 z-10 flex list-none flex-wrap justify-end gap-2"
+          >
+            {matchingFilters.map((filter) => (
+              <li
+                key={filter}
+                className="border border-accent bg-background/90 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-accent backdrop-blur-sm"
+              >
+                {filter}
+              </li>
+            ))}
+          </ul>
+        )}
 
         <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/90 via-black/55 to-transparent p-5 pt-16 text-white">
           <ul

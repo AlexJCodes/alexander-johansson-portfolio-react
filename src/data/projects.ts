@@ -5,11 +5,25 @@ import sirVectorCover from "../assets/images/projects/sir-vector-project.webp";
 import templeOfFiveCover from "../assets/images/projects/temple-of-five-project.webp";
 import whichDevHeroCover from "../assets/images/projects/which-dev-hero-project.webp";
 
+export type ProjectType = "Design" | "Game" | "E-commerce";
+
+export type ProjectFilter = "Frontend" | "Backend" | "Fullstack" | ProjectType;
+
+export const projectFilters: ProjectFilter[] = [
+  "Frontend",
+  "Backend",
+  "Fullstack",
+  "Design",
+  "Game",
+  "E-commerce",
+];
+
 export type Project = {
   id: string;
   title: string;
   subtitle: string;
   description: string;
+  types?: ProjectType[];
   technologies: string[];
   image: string;
   imageAlt: string;
@@ -24,7 +38,7 @@ export const projects: Project[] = [
     subtitle: "Fullstack-quiz för utvecklare",
     description:
       "Ett interaktivt fullstack-quiz där användaren svarar på frågor och matchas med en utvecklarprofil, med egen backend, databas, statistik och kommentarer.",
-    technologies: ["TypeScript", "Vite", "Node.js", "Express", "MySQL", "Figma"],
+    technologies: ["TypeScript", "Vite", "Node.js", "Express", "MySQL", "Figma", "SCSS"],
     image: whichDevHeroCover,
     imageAlt: "Omslagsbild för Which Dev Hero Are You?",
     githubUrl: "https://github.com/AlexJCodes/which-dev-hero-are-you-api",
@@ -36,7 +50,8 @@ export const projects: Project[] = [
     subtitle: "Digital escape room-upplevelse",
     description:
       "En digital escape room-upplevelse byggd i team med fokus på användarflöden, tillgänglighet och interaktivitet.",
-    technologies: ["TypeScript", "Vite", "SCSS", "Biome", "Figma"],
+    types: ["Game"],
+    technologies: ["TypeScript", "Vite", "SCSS", "Figma"],
     image: templeOfFiveCover,
     imageAlt: "Omslagsbild för The Temple of Five",
     githubUrl: "https://github.com/AlexJCodes/escape-room-game",
@@ -60,6 +75,7 @@ export const projects: Project[] = [
     subtitle: "E-handel från produktval till checkout",
     description:
       "En lekfull webbshop med filtrering, sortering, varukorg och ett komplett checkout-flöde.",
+    types: ["E-commerce"],
     technologies: ["HTML", "SCSS", "JavaScript", "Vite", "Figma"],
     image: donutShopCover,
     imageAlt: "Omslagsbild för G's Donut Shop",
@@ -72,6 +88,7 @@ export const projects: Project[] = [
     subtitle: "Visuellt frontendprojekt",
     description:
       "Ett visuellt frontendprojekt med spelinspirerad identitet med fokus på animation, grafisk form och interaktiva detaljer.",
+    types: ["Design"],
     technologies: ["HTML", "CSS", "JavaScript", "Figma", "GSAP"],
     image: sirVectorCover,
     imageAlt: "Omslagsbild för Sir Vector",
