@@ -56,6 +56,13 @@ function ProjectsSection() {
 
   // Add or remove a filter from the active filters
   const toggleFilter = (filter: ProjectFilter) => {
+    trackRef.current?.scrollTo({
+      left: 0,
+      behavior: "auto",
+    });
+
+    setCanScrollPrevious(false);
+
     setSelectedFilters((currentFilters) =>
       currentFilters.includes(filter)
         ? currentFilters.filter((item) => item !== filter)
@@ -92,6 +99,20 @@ function ProjectsSection() {
     };
   }, []);
 
+  // Reset carousel position when the active filters change
+  useEffect(() => {
+    const track = trackRef.current;
+
+    if (!track) {
+      return;
+    }
+
+    const maximumScroll = track.scrollWidth - track.clientWidth;
+
+    setCanScrollPrevious(false);
+    setCanScrollNext(filteredProjects.length > 0 && maximumScroll > 1);
+  }, [filteredProjects.length]);
+
   // Scroll one project card at a time
   const scrollProjects = (direction: "previous" | "next") => {
     const track = trackRef.current;
@@ -114,6 +135,16 @@ function ProjectsSection() {
       left: direction === "next" ? scrollDistance : -scrollDistance,
       behavior: getScrollBehavior(),
     });
+  };
+
+  const clearFilters = () => {
+    trackRef.current?.scrollTo({
+      left: 0,
+      behavior: "auto",
+    });
+
+    setCanScrollPrevious(false);
+    setSelectedFilters([]);
   };
 
   return (
@@ -164,7 +195,7 @@ function ProjectsSection() {
           {selectedFilters.length > 0 && (
             <button
               type="button"
-              onClick={() => setSelectedFilters([])}
+              onClick={clearFilters}
               className="cursor-pointer px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-foreground"
             >
               Rensa filter
