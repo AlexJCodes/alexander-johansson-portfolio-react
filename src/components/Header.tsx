@@ -84,7 +84,7 @@ function Header() {
         isScrolled ? "border-border" : "border-transparent"
       }`}
     >
-      <div className="mx-auto flex min-h-16 max-w-content items-center justify-between px-5 lg:px-10">
+      <div className="mx-auto flex min-h-16 w-[calc(100%-2*var(--page-padding))] max-w-content items-center justify-between">
         {/* Brand */}
         <a
           href="#top"

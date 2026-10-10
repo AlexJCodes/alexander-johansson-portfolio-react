@@ -58,8 +58,9 @@
 
   --tracking-label: 0.1em;
 
+  /* Layout */
   --container-content: 80rem;
-
+  --page-padding: clamp(1.25rem, 0.75rem + 2vw, 2.5rem);
   --spacing-section: clamp(5rem, 3rem + 5vw, 7rem);
 
   --radius-focus: 0.25rem;
