@@ -1,3 +1,4 @@
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import ProjectCard from "../components/ProjectCard";
 import { type Project, type ProjectFilter, projectFilters, projects } from "../data/projects";
@@ -113,6 +114,8 @@ function ProjectsSection() {
     setCanScrollNext(filteredProjects.length > 0 && maximumScroll > 1);
   }, [filteredProjects.length]);
 
+  const shouldReduceMotion = useReducedMotion();
+
   // Scroll one project card at a time
   const scrollProjects = (direction: "previous" | "next") => {
     const track = trackRef.current;
@@ -217,21 +220,50 @@ function ProjectsSection() {
               "max(var(--page-padding), calc((100% - var(--container-content)) / 2))",
           }}
         >
-          {filteredProjects.map((project) => {
-            const matchingFilters = selectedFilters.filter((filter) =>
-              projectMatchesFilter(project, filter),
-            );
+          <AnimatePresence initial={false} mode="popLayout">
+            {filteredProjects.map((project) => {
+              const matchingFilters = selectedFilters.filter((filter) =>
+                projectMatchesFilter(project, filter),
+              );
 
-            return (
-              <li
-                key={project.id}
-                data-project-item
-                className="w-[82vw] shrink-0 snap-start sm:w-[56vw] lg:w-125 xl:w-130"
-              >
-                <ProjectCard project={project} matchingFilters={matchingFilters} />
-              </li>
-            );
-          })}
+              return (
+                <motion.li
+                  key={project.id}
+                  layout="position"
+                  data-project-item
+                  initial={
+                    shouldReduceMotion
+                      ? false
+                      : {
+                          opacity: 0,
+                          scale: 0.98,
+                        }
+                  }
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  exit={
+                    shouldReduceMotion
+                      ? {
+                          opacity: 0,
+                        }
+                      : {
+                          opacity: 0,
+                          scale: 0.98,
+                        }
+                  }
+                  transition={{
+                    duration: shouldReduceMotion ? 0 : 0.25,
+                    ease: "easeOut",
+                  }}
+                  className="w-[82vw] shrink-0 snap-start sm:w-[56vw] lg:w-125 xl:w-130"
+                >
+                  <ProjectCard project={project} matchingFilters={matchingFilters} />
+                </motion.li>
+              );
+            })}
+          </AnimatePresence>
         </ul>
 
         {/* Carousel controls */}
