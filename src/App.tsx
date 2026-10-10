@@ -1,9 +1,9 @@
 import Header from "./components/Header";
-import HeroSection from "./sections/HeroSection";
-import ProjectsSection from "./sections/ProjectsSection";
 import AboutSection from "./sections/AboutSection";
-import SkillsSection from "./sections/SkillsSection";
+import HeroSection from "./sections/HeroSection";
 import PersonalSection from "./sections/PersonalSection";
+import ProjectsSection from "./sections/ProjectsSection";
+import SkillsSection from "./sections/SkillsSection";
 
 function App() {
   return (

@@ -1,3 +1,6 @@
+import PersonalCard from "../components/PersonalCard";
+import { personalInterests } from "../data/personalInterests";
+
 function PersonalSection() {
   return (
     <section
@@ -20,30 +23,14 @@ function PersonalSection() {
         </header>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {/* Padel */}
-          <article className="group min-w-0">
-            <div className="relative aspect-4/3 overflow-hidden bg-surface">
-              {/* image + video */}
+          {personalInterests.map((interest) => (
+            <div
+              key={interest.id}
+              className="md:last:col-span-2 md:last:w-[calc((100%-1.5rem)/2)] md:last:justify-self-center lg:last:col-span-1 lg:last:w-auto lg:last:justify-self-stretch"
+            >
+              <PersonalCard interest={interest} />
             </div>
-
-            <div className="pt-4">
-              <h3 className="mb-2 text-sm font-semibold uppercase tracking-label text-muted">
-                Padel
-              </h3>
-
-              <p className="max-w-104 text-lg leading-body">
-                Spelar oftare än jag borde. Om du besegrar mig bjuder jag på fika.
-              </p>
-            </div>
-          </article>
-
-          {/* Miles With Alex */}
-          <article className="group min-w-0">{/* media + content */}</article>
-
-          {/* Resor */}
-          <article className="group min-w-0 md:col-span-2 md:w-[calc((100%-1.5rem)/2)] md:justify-self-center lg:col-span-1 lg:w-auto lg:justify-self-stretch">
-            {/* media + content */}
-          </article>
+          ))}
         </div>
       </div>
     </section>
