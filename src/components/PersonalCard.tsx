@@ -1,14 +1,44 @@
+import { useRef } from "react";
 import type { PersonalInterest } from "../data/personalInterests";
 
 type PersonalCardProps = {
   interest: PersonalInterest;
 };
 
+const canPlayHoverVideo = () => {
+  const supportsHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  return supportsHover && !prefersReducedMotion;
+};
+
 function PersonalCard({ interest }: PersonalCardProps) {
   const { title, description, media } = interest;
 
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handlePointerEnter = () => {
+    if (!canPlayHoverVideo()) return;
+
+    void videoRef.current?.play();
+  };
+
+  const handlePointerLeave = () => {
+    const video = videoRef.current;
+
+    if (!video) return;
+
+    video.pause();
+    video.currentTime = 0;
+  };
+
   return (
-    <article className="group min-w-0">
+    <article
+      className="group min-w-0"
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+    >
       <div className="relative aspect-4/3 overflow-hidden bg-surface">
         {media.type === "image-reveal" ? (
           <>
@@ -18,21 +48,23 @@ function PersonalCard({ interest }: PersonalCardProps) {
               width={1200}
               height={900}
               loading="lazy"
-              className="absolute inset-0 block h-full w-full object-cover grayscale"
+              className="absolute inset-0 z-10 block h-full w-full object-cover grayscale [transition:opacity_400ms_ease,filter_400ms_ease,transform_500ms_ease] group-hover:grayscale-0 motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:opacity-0 motion-reduce:transition-none"
             />
 
             <video
+              ref={videoRef}
               muted
               loop
               playsInline
               preload="metadata"
-              className="absolute inset-0 block h-full w-full object-cover opacity-0"
+              className="absolute inset-0 block h-full w-full object-cover opacity-0 grayscale [transition:opacity_400ms_ease,filter_400ms_ease,transform_500ms_ease] group-hover:grayscale-0 motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:opacity-100 motion-reduce:transition-none"
             >
               <source src={media.videoSrc} type="video/mp4" />
             </video>
           </>
         ) : (
           <video
+            ref={videoRef}
             muted
             loop
             playsInline
