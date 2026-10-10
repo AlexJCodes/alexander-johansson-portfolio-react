@@ -116,6 +116,13 @@
     background-color: var(--color-accent);
     color: var(--color-background);
   }
+
+  html[data-theme-switching],
+  html[data-theme-switching] *,
+  html[data-theme-switching] *::before,
+  html[data-theme-switching] *::after {
+    transition-duration: 0s;
+  }
 }
 
 /* Global accessibility fallback */

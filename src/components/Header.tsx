@@ -21,12 +21,6 @@ function Header() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstMenuLinkRef = useRef<HTMLAnchorElement>(null);
 
-  // Keep the selected theme in sync with the document and localStorage.
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
   // Handle accessibility and page behaviour while the mobile menu is open.
   useEffect(() => {
     if (!isMenuOpen) {
@@ -67,7 +61,20 @@ function Header() {
   }, []);
 
   const toggleTheme = () => {
-    setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
+    const nextTheme = theme === "light" ? "dark" : "light";
+    const root = document.documentElement;
+
+    root.dataset.themeSwitching = "true";
+    root.dataset.theme = nextTheme;
+
+    localStorage.setItem("theme", nextTheme);
+    setTheme(nextTheme);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        delete root.dataset.themeSwitching;
+      });
+    });
   };
 
   const toggleMenu = () => {
