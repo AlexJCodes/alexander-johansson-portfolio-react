@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  getGameResult,
   getRandomDelay,
   getRandomPosition,
   TOTAL_HITS,
   type BallPosition,
+  type GameResult,
 } from "../utils/padelGame";
 
 type PadelChallengeProps = {
@@ -11,19 +13,23 @@ type PadelChallengeProps = {
   onClose: () => void;
 };
 
-type GameScreen = "intro" | "game";
+type GameScreen = "intro" | "game" | "result";
 
 function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
   // DOM and game refs
   const dialogRef = useRef<HTMLDialogElement>(null);
   const previousPositionRef = useRef<BallPosition | null>(null);
   const ballTimerRef = useRef<number | null>(null);
+  const reactionStartRef = useRef<number | null>(null);
+  const reactionTimesRef = useRef<number[]>([]);
 
   // UI and game state
   const [screen, setScreen] = useState<GameScreen>("intro");
   const [currentHit, setCurrentHit] = useState(1);
   const [ballPosition, setBallPosition] = useState<BallPosition | null>(null);
   const [isBallVisible, setIsBallVisible] = useState(false);
+  const [averageReactionTime, setAverageReactionTime] = useState<number | null>(null);
+  const [gameResult, setGameResult] = useState<GameResult | null>(null);
 
   // Game helpers
   const clearBallTimer = () => {
@@ -39,8 +45,12 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
     setCurrentHit(1);
     setBallPosition(null);
     setIsBallVisible(false);
+    setAverageReactionTime(null);
+    setGameResult(null);
 
     previousPositionRef.current = null;
+    reactionStartRef.current = null;
+    reactionTimesRef.current = [];
   };
 
   const showNextBall = () => {
@@ -54,6 +64,8 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
       previousPositionRef.current = nextPosition;
 
       setBallPosition(nextPosition);
+
+      reactionStartRef.current = performance.now();
       setIsBallVisible(true);
 
       ballTimerRef.current = null;
@@ -95,6 +107,32 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
   const startGame = () => {
     resetGameState();
     setScreen("game");
+    showNextBall();
+  };
+
+  const handleBallHit = () => {
+    if (reactionStartRef.current === null) return;
+
+    const reactionTime = performance.now() - reactionStartRef.current;
+
+    reactionTimesRef.current.push(reactionTime);
+
+    reactionStartRef.current = null;
+    setIsBallVisible(false);
+
+    if (currentHit >= TOTAL_HITS) {
+      const totalReactionTime = reactionTimesRef.current.reduce((sum, time) => sum + time, 0);
+
+      const average = totalReactionTime / reactionTimesRef.current.length;
+
+      setAverageReactionTime(average);
+      setGameResult(getGameResult(average));
+      setScreen("result");
+
+      return;
+    }
+
+    setCurrentHit((hit) => hit + 1);
     showNextBall();
   };
 
@@ -162,8 +200,11 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
 
             <div className="relative flex-1 overflow-hidden border border-border bg-surface">
               {isBallVisible && ballPosition && (
-                <div
-                  className="absolute h-13 w-13 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full shadow-[0_0_0_0.25rem_rgb(215_239_67/14%),0_0.5rem_1.5rem_rgb(0_0_0/18%)]"
+                <button
+                  type="button"
+                  onClick={handleBallHit}
+                  aria-label="Träffa padelbollen"
+                  className="absolute h-13 w-13 -translate-x-1/2 -translate-y-1/2 cursor-pointer overflow-hidden rounded-full shadow-[0_0_0_0.25rem_rgb(215_239_67/14%),0_0.5rem_1.5rem_rgb(0_0_0/18%)] transition-transform motion-safe:hover:scale-[1.08]"
                   style={{
                     left: `${ballPosition.x}%`,
                     top: `${ballPosition.y}%`,
@@ -173,13 +214,43 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
                 >
                   <span className="absolute left-[-53%] top-[-8%] h-[115%] w-[80%] rounded-full border-[0.12rem] border-white/90" />
                   <span className="absolute right-[-53%] top-[-8%] h-[115%] w-[80%] rounded-full border-[0.12rem] border-white/90" />
-                </div>
+                </button>
               )}
             </div>
 
             <p className="sr-only" aria-live="polite">
               {isBallVisible ? `Boll ${currentHit} av ${TOTAL_HITS}` : "Gör dig redo"}
             </p>
+          </div>
+        )}
+
+        {screen === "result" && averageReactionTime !== null && gameResult && (
+          <div className="flex min-h-112 flex-col items-start justify-center max-sm:h-full max-sm:min-h-0">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-label text-muted">
+              Resultat
+            </p>
+
+            <p className="mb-6 flex items-baseline gap-2 font-display text-[clamp(4rem,3rem+5vw,7rem)] leading-[0.9] tracking-[-0.04em]">
+              <span>{(averageReactionTime / 1000).toFixed(2).replace(".", ",")}</span>
+
+              <span className="font-body text-lg font-normal tracking-normal text-muted">s</span>
+            </p>
+
+            <h2 className="max-w-[12ch] font-display text-[clamp(2rem,1.5rem+2vw,3rem)] leading-heading">
+              {gameResult.title}
+            </h2>
+
+            <p className="mt-3 text-lg leading-body text-muted">
+              Min högst ovetenskapliga bedömning: MATCHi {gameResult.rating}/10.
+            </p>
+
+            <button
+              type="button"
+              onClick={startGame}
+              className="mt-8 cursor-pointer border border-border bg-transparent px-4 py-3 font-semibold transition-colors hover:border-foreground focus-visible:border-foreground"
+            >
+              Kör igen
+            </button>
           </div>
         )}
       </div>
