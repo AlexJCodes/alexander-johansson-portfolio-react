@@ -1,4 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import {
+  getRandomDelay,
+  getRandomPosition,
+  TOTAL_HITS,
+  type BallPosition,
+} from "../utils/padelGame";
 
 type PadelChallengeProps = {
   isOpen: boolean;
@@ -8,9 +14,53 @@ type PadelChallengeProps = {
 type GameScreen = "intro" | "game";
 
 function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
+  // DOM and game refs
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const [screen, setScreen] = useState<GameScreen>("intro");
+  const previousPositionRef = useRef<BallPosition | null>(null);
+  const ballTimerRef = useRef<number | null>(null);
 
+  // UI and game state
+  const [screen, setScreen] = useState<GameScreen>("intro");
+  const [currentHit, setCurrentHit] = useState(1);
+  const [ballPosition, setBallPosition] = useState<BallPosition | null>(null);
+  const [isBallVisible, setIsBallVisible] = useState(false);
+
+  // Game helpers
+  const clearBallTimer = () => {
+    if (ballTimerRef.current === null) return;
+
+    window.clearTimeout(ballTimerRef.current);
+    ballTimerRef.current = null;
+  };
+
+  const resetGameState = () => {
+    clearBallTimer();
+
+    setCurrentHit(1);
+    setBallPosition(null);
+    setIsBallVisible(false);
+
+    previousPositionRef.current = null;
+  };
+
+  const showNextBall = () => {
+    setIsBallVisible(false);
+
+    const delay = getRandomDelay();
+
+    ballTimerRef.current = window.setTimeout(() => {
+      const nextPosition = getRandomPosition(previousPositionRef.current);
+
+      previousPositionRef.current = nextPosition;
+
+      setBallPosition(nextPosition);
+      setIsBallVisible(true);
+
+      ballTimerRef.current = null;
+    }, delay);
+  };
+
+  // Keep the dialog in sync with React state
   useEffect(() => {
     const dialog = dialogRef.current;
 
@@ -27,13 +77,25 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
     }
 
     return () => {
+      if (ballTimerRef.current !== null) {
+        window.clearTimeout(ballTimerRef.current);
+      }
+
       document.body.style.overflow = "";
     };
   }, [isOpen]);
 
+  // User actions
   const handleClose = () => {
+    resetGameState();
     setScreen("intro");
     onClose();
+  };
+
+  const startGame = () => {
+    resetGameState();
+    setScreen("game");
+    showNextBall();
   };
 
   return (
@@ -84,8 +146,8 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
 
             <button
               type="button"
-              onClick={() => setScreen("game")}
-              className="mt-8 cursor-pointer border border-foreground bg-foreground px-5 py-3.5 font-semibold text-background transition-colors hover:bg-accent hover:border-accent"
+              onClick={startGame}
+              className="mt-8 cursor-pointer border border-foreground bg-foreground px-5 py-3.5 font-semibold text-background transition-colors hover:border-accent hover:bg-accent"
             >
               Starta utmaningen
             </button>
@@ -95,13 +157,28 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
         {screen === "game" && (
           <div className="flex min-h-112 flex-col gap-4 max-sm:h-full max-sm:min-h-0">
             <p className="pr-14 text-sm font-semibold uppercase tracking-label text-muted">
-              Träff 1 / 5
+              Träff {currentHit} / {TOTAL_HITS}
             </p>
 
-            <div className="flex-1 border border-border bg-surface" />
+            <div className="relative flex-1 overflow-hidden border border-border bg-surface">
+              {isBallVisible && ballPosition && (
+                <div
+                  className="absolute h-13 w-13 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full shadow-[0_0_0_0.25rem_rgb(215_239_67/14%),0_0.5rem_1.5rem_rgb(0_0_0/18%)]"
+                  style={{
+                    left: `${ballPosition.x}%`,
+                    top: `${ballPosition.y}%`,
+                    background:
+                      "radial-gradient(circle at 30% 25%, rgb(255 255 255 / 28%), transparent 35%), #d7ef43",
+                  }}
+                >
+                  <span className="absolute left-[-53%] top-[-8%] h-[115%] w-[80%] rounded-full border-[0.12rem] border-white/90" />
+                  <span className="absolute right-[-53%] top-[-8%] h-[115%] w-[80%] rounded-full border-[0.12rem] border-white/90" />
+                </div>
+              )}
+            </div>
 
             <p className="sr-only" aria-live="polite">
-              Gör dig redo
+              {isBallVisible ? `Boll ${currentHit} av ${TOTAL_HITS}` : "Gör dig redo"}
             </p>
           </div>
         )}
