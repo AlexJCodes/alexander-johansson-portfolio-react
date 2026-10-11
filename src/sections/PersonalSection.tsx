@@ -1,7 +1,19 @@
+import { useState } from "react";
 import PersonalCard from "../components/PersonalCard";
 import { personalInterests } from "../data/personalInterests";
+import PadelChallenge from "../components/PadelChallenge";
 
 function PersonalSection() {
+  const [isPadelChallengeOpen, setIsPadelChallengeOpen] = useState(false);
+
+  const openPadelChallenge = () => {
+    setIsPadelChallengeOpen(true);
+  };
+
+  const closePadelChallenge = () => {
+    setIsPadelChallengeOpen(false);
+  };
+
   return (
     <section
       id="personligt"
@@ -28,11 +40,16 @@ function PersonalSection() {
               key={interest.id}
               className="md:last:col-span-2 md:last:w-[calc((100%-1.5rem)/2)] md:last:justify-self-center lg:last:col-span-1 lg:last:w-auto lg:last:justify-self-stretch"
             >
-              <PersonalCard interest={interest} />
+              <PersonalCard
+                interest={interest}
+                onAction={interest.id === "padel" ? openPadelChallenge : undefined}
+              />
             </div>
           ))}
         </div>
       </div>
+
+      <PadelChallenge isOpen={isPadelChallengeOpen} onClose={closePadelChallenge} />
     </section>
   );
 }

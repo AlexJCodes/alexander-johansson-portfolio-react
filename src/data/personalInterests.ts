@@ -19,11 +19,17 @@ type VideoPosterMedia = {
   posterSrc: string;
 };
 
+type PersonalInterestAction = {
+  description: string;
+  label: string;
+};
+
 export type PersonalInterest = {
   id: string;
   title: string;
   description: string;
   media: ImageRevealMedia | VideoPosterMedia;
+  action?: PersonalInterestAction;
 };
 
 export const personalInterests: PersonalInterest[] = [
@@ -36,6 +42,10 @@ export const personalInterests: PersonalInterest[] = [
       imageSrc: padelPhoto,
       imageAlt: "Bollkorg med ett rack liggande på en padelbana",
       videoSrc: padelVideo,
+    },
+    action: {
+      description: "Är du en värdig motståndare? Testa din reaktion.",
+      label: "Testa här",
     },
   },
   {

@@ -3,6 +3,7 @@ import type { PersonalInterest } from "../data/personalInterests";
 
 type PersonalCardProps = {
   interest: PersonalInterest;
+  onAction?: () => void;
 };
 
 const canPlayHoverVideo = () => {
@@ -13,7 +14,7 @@ const canPlayHoverVideo = () => {
   return supportsHover && !prefersReducedMotion;
 };
 
-function PersonalCard({ interest }: PersonalCardProps) {
+function PersonalCard({ interest, onAction }: PersonalCardProps) {
   const { title, description, media } = interest;
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -81,6 +82,29 @@ function PersonalCard({ interest }: PersonalCardProps) {
         <h3 className="mb-2 text-sm font-semibold uppercase tracking-label text-muted">{title}</h3>
 
         <p className="max-w-104 text-lg leading-body text-foreground">{description}</p>
+
+        {interest.action && onAction && (
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+            <p className="max-w-72 text-sm leading-body text-muted">
+              {interest.action.description}
+            </p>
+
+            <button
+              type="button"
+              onClick={onAction}
+              className="group/action inline-flex cursor-pointer items-center gap-2 text-sm font-semibold transition-colors hover:text-accent focus-visible:text-accent"
+            >
+              {interest.action.label}
+
+              <span
+                aria-hidden="true"
+                className="transition-transform motion-safe:group-hover/action:translate-x-1 motion-safe:group-focus-visible/action:translate-x-1"
+              >
+                →
+              </span>
+            </button>
+          </div>
+        )}
       </div>
     </article>
   );
