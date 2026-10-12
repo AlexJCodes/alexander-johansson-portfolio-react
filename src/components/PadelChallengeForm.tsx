@@ -114,7 +114,7 @@ function PadelChallengeForm({ reactionTime, rating }: PadelChallengeFormProps) {
   };
 
   return (
-    <div className="flex min-h-112 flex-col justify-center max-sm:h-full max-sm:min-h-0">
+    <div className="flex min-h-112 flex-col justify-center max-sm:h-auto max-sm:min-h-0 max-sm:justify-start max-sm:pb-8">
       {formStatus === "success" ? (
         <div role="status" aria-live="polite" className="max-w-136">
           <p className="mb-3 text-sm font-semibold uppercase tracking-label text-muted">
