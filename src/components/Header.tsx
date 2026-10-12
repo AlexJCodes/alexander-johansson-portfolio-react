@@ -87,7 +87,7 @@ function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-background transition-colors ${
+      className={`sticky top-0 z-50 border-b bg-background ${
         isScrolled ? "border-border" : "border-transparent"
       }`}
     >
