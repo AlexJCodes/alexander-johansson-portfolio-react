@@ -1,7 +1,7 @@
 import { useState } from "react";
+import PadelChallenge from "../components/PadelChallenge";
 import PersonalCard from "../components/PersonalCard";
 import { personalInterests } from "../data/personalInterests";
-import PadelChallenge from "../components/PadelChallenge";
 
 function PersonalSection() {
   const [isPadelChallengeOpen, setIsPadelChallengeOpen] = useState(false);

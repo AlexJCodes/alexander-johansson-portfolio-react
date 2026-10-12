@@ -1,19 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  type BallPosition,
+  type GameResult,
   getGameResult,
   getRandomDelay,
   getRandomPosition,
   TOTAL_HITS,
-  type BallPosition,
-  type GameResult,
 } from "../utils/padelGame";
+
+import PadelChallengeForm from "./PadelChallengeForm";
 
 type PadelChallengeProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-type GameScreen = "intro" | "game" | "result";
+type GameScreen = "intro" | "game" | "result" | "challenge";
 
 function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
   // DOM and game refs
@@ -244,14 +246,29 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
               Min högst ovetenskapliga bedömning: MATCHi {gameResult.rating}/10.
             </p>
 
-            <button
-              type="button"
-              onClick={startGame}
-              className="mt-8 cursor-pointer border border-border bg-transparent px-4 py-3 font-semibold transition-colors hover:border-foreground focus-visible:border-foreground"
-            >
-              Kör igen
-            </button>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={startGame}
+                className="cursor-pointer border border-border bg-transparent px-4 py-3 font-semibold transition-colors hover:border-foreground"
+              >
+                Kör igen
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setScreen("challenge")}
+                className="inline-flex cursor-pointer items-center gap-2 bg-foreground px-4 py-3 font-semibold text-background transition-colors hover:bg-accent"
+              >
+                Utmana Alex
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
           </div>
+        )}
+
+        {screen === "challenge" && averageReactionTime !== null && gameResult && (
+          <PadelChallengeForm reactionTime={averageReactionTime} rating={gameResult.rating} />
         )}
       </div>
     </dialog>
