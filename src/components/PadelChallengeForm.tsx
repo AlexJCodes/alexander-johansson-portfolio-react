@@ -69,7 +69,7 @@ function PadelChallengeForm({ reactionTime, rating }: PadelChallengeFormProps) {
 
     if (!formData.email.trim()) {
       nextErrors.email = "Vart ska jag svara? Släng in en e-postadress.";
-    } else if (!emailPattern.test(formData.email)) {
+    } else if (!emailPattern.test(formData.email.trim())) {
       nextErrors.email = "Den där e-posten ser lite suspekt ut. Kolla den en gång till.";
     }
 
@@ -295,7 +295,7 @@ function PadelChallengeForm({ reactionTime, rating }: PadelChallengeFormProps) {
               disabled={formStatus === "submitting"}
               className="mt-2 inline-flex min-h-13 w-fit cursor-pointer items-center justify-center gap-2 rounded-[0.65rem] bg-foreground px-5 font-semibold text-background transition-colors hover:bg-accent disabled:cursor-wait disabled:opacity-60"
             >
-              {formStatus === "submitting" ? "Skickar..." : "Skicka utmaningen"}
+              {formStatus === "submitting" ? "Skickar..." : "Skicka meddelandet"}
 
               {formStatus !== "submitting" && <span aria-hidden="true">→</span>}
             </button>

@@ -141,8 +141,7 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
   return (
     <dialog
       ref={dialogRef}
-      aria-labelledby="padel-game-title"
-      aria-describedby="padel-game-description"
+      aria-label="Padel Challenge"
       onClose={handleClose}
       className="
         m-auto
@@ -199,17 +198,11 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
               Padel Challenge
             </p>
 
-            <h2
-              id="padel-game-title"
-              className="max-w-[10ch] font-display text-section-title leading-heading tracking-[-0.02em]"
-            >
+            <h2 className="max-w-[10ch] font-display text-section-title leading-heading tracking-[-0.02em]">
               Redo att testa reaktionen?
             </h2>
 
-            <p
-              id="padel-game-description"
-              className="mt-6 max-w-120 text-lg leading-body text-muted"
-            >
+            <p className="mt-6 max-w-120 text-lg leading-body text-muted">
               Fem bollar. Så snabbt du kan. Vi ser om du är redo för en riktig match.
             </p>
 
