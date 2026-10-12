@@ -263,7 +263,7 @@ function ProjectsSection() {
                       duration: shouldReduceMotion ? 0 : 0.25,
                       ease: "easeOut",
                     }}
-                    className="w-[82vw] shrink-0 snap-start sm:w-[56vw] lg:w-125 xl:w-130"
+                    className="w-[calc(100vw-2*var(--page-padding))] shrink-0 snap-start sm:w-[56vw] lg:w-125 xl:w-130"
                   >
                     <ProjectCard project={project} matchingFilters={matchingFilters} />
                   </motion.li>
