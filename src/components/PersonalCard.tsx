@@ -71,7 +71,7 @@ function PersonalCard({ interest, onAction }: PersonalCardProps) {
             playsInline
             preload="metadata"
             poster={media.posterSrc}
-            className="absolute inset-0 block h-full w-full object-cover grayscale"
+            className="absolute inset-0 block h-full w-full object-cover grayscale [transition:filter_400ms_ease,transform_500ms_ease] group-hover:grayscale-0 motion-safe:group-hover:scale-[1.03] motion-reduce:transition-none"
           >
             <source src={media.videoSrc} type="video/mp4" />
           </video>
