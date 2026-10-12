@@ -9,12 +9,12 @@ function ProjectCard({ project, matchingFilters }: ProjectCardProps) {
   const projectUrl = project.liveUrl ?? project.githubUrl;
   return (
     <article>
-      <div className="relative aspect-4/3 overflow-hidden">
+      <div className="group relative aspect-4/3 overflow-hidden">
         <img
           src={project.image}
           alt={project.imageAlt}
           loading="lazy"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover transition-transform duration-400 motion-safe:group-hover:scale-[1.035]"
         />
 
         {matchingFilters.length > 0 && (
