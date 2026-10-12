@@ -141,34 +141,42 @@ function Header() {
             type="button"
             aria-label={theme === "light" ? "Byt till mörkt tema" : "Byt till ljust tema"}
             onClick={toggleTheme}
-            className="grid size-11 place-items-center text-foreground"
+            className="group grid size-11 cursor-pointer place-items-center text-foreground"
           >
-            {theme === "light" ? (
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.75"
-                aria-hidden="true"
-              >
-                <path d="M21 12.79A9 9 0 1 1 11.21 3A7 7 0 0 0 21 12.79Z" />
-              </svg>
-            ) : (
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.75"
-                aria-hidden="true"
-              >
-                <circle cx="12" cy="12" r="4" />
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
-              </svg>
-            )}
+            <span
+              className={`grid place-items-center transition-transform duration-200 ease-out motion-reduce:transition-none ${
+                theme === "dark" ? "rotate-45" : "rotate-0"
+              }`}
+            >
+              {theme === "light" ? (
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  aria-hidden="true"
+                  className="transition-transform duration-200 motion-safe:group-hover:scale-125 motion-reduce:transition-none"
+                >
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3A7 7 0 0 0 21 12.79Z" />
+                </svg>
+              ) : (
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  aria-hidden="true"
+                  className="transition-transform duration-200 motion-safe:group-hover:scale-125 motion-reduce:transition-none"
+                >
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41" />
+                </svg>
+              )}
+            </span>
           </button>
 
           <button
