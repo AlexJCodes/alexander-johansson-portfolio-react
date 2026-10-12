@@ -144,9 +144,38 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
       aria-labelledby="padel-game-title"
       aria-describedby="padel-game-description"
       onClose={handleClose}
-      className="m-auto max-h-[calc(100dvh-2*var(--page-padding))] w-[calc(100%-2*var(--page-padding))] max-w-3xl overflow-hidden border border-border bg-background p-0 text-foreground backdrop:bg-black/55 backdrop:backdrop-blur-sm max-sm:h-dvh max-sm:max-h-dvh max-sm:w-full max-sm:max-w-none max-sm:border-0"
+      className="
+        m-auto
+        max-h-[calc(100dvh-2*var(--page-padding))]
+        w-[calc(100%-2*var(--page-padding))]
+        max-w-3xl
+        overflow-x-hidden
+        overflow-y-auto
+        overscroll-contain
+        border border-border
+        bg-background
+        p-0
+        text-foreground
+        backdrop:bg-black/55
+        backdrop:backdrop-blur-sm
+        max-sm:h-dvh
+        max-sm:max-h-dvh
+        max-sm:w-full
+        max-sm:max-w-none
+        max-sm:border-0
+      "
     >
-      <div className="relative min-h-136 p-12 max-sm:h-dvh max-sm:min-h-0 max-sm:px-(--page-padding) max-sm:pb-6 max-sm:pt-20">
+      <div
+        className="
+          relative
+          min-h-136
+          p-12
+          max-sm:min-h-dvh
+          max-sm:px-(--page-padding)
+          max-sm:pb-8
+          max-sm:pt-20
+        "
+      >
         <button
           type="button"
           onClick={handleClose}
