@@ -5,6 +5,7 @@ import HeroSection from "./sections/HeroSection";
 import PersonalSection from "./sections/PersonalSection";
 import ProjectsSection from "./sections/ProjectsSection";
 import SkillsSection from "./sections/SkillsSection";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <PersonalSection />
         <ContactSection />
       </main>
+
+      <Footer />
     </>
   );
 }
