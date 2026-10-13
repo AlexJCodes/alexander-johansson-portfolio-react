@@ -9,7 +9,7 @@ function ProjectCard({ project, matchingFilters }: ProjectCardProps) {
   const projectUrl = project.liveUrl ?? project.githubUrl;
   return (
     <article>
-      <div className="group relative aspect-4/3 overflow-hidden">
+      <div className="group relative aspect-square overflow-hidden min-[360px]:aspect-4/3">
         <img
           src={project.image}
           alt={project.imageAlt}

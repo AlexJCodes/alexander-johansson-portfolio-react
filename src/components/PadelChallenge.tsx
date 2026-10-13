@@ -169,7 +169,8 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
           relative
           min-h-136
           p-12
-          max-sm:min-h-dvh
+          max-sm:h-dvh
+          max-sm:min-h-0
           max-sm:px-(--page-padding)
           max-sm:pb-8
           max-sm:pt-20
@@ -222,7 +223,7 @@ function PadelChallenge({ isOpen, onClose }: PadelChallengeProps) {
               Träff {currentHit} / {TOTAL_HITS}
             </p>
 
-            <div className="relative flex-1 overflow-hidden border border-border bg-surface">
+            <div className="relative min-h-0 flex-1 overflow-hidden border border-border bg-surface">
               {isBallVisible && ballPosition && (
                 <button
                   type="button"
