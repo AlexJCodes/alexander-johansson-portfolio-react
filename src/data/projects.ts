@@ -4,6 +4,7 @@ import moneyMoodCover from "../assets/images/projects/moneymood-project.webp";
 import sirVectorCover from "../assets/images/projects/sir-vector-project.webp";
 import templeOfFiveCover from "../assets/images/projects/temple-of-five-project.webp";
 import whichDevHeroCover from "../assets/images/projects/which-dev-hero-project.webp";
+import jalBookClubCover from "../assets/images/projects/jal-book-club-project.webp";
 
 export type ProjectType = "Design" | "Game" | "E-commerce";
 
@@ -43,6 +44,27 @@ export const projects: Project[] = [
     imageAlt: "Omslagsbild för Which Dev Hero Are You?",
     githubUrl: "https://github.com/AlexJCodes/which-dev-hero-are-you-api",
     liveUrl: "https://which-dev-hero.vercel.app/",
+  },
+  {
+    id: "jal-book-club",
+    title: "JAL Book Club",
+    subtitle: "Fullstack-bokklubb med autentisering",
+    description:
+      "En fullstack-applikation byggd i team med användarhantering, JWT-autentisering, skyddade sidor, böcker och recensioner med MongoDB som databas.",
+    technologies: [
+      "TypeScript",
+      "Vite",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "Mongoose",
+      "Figma",
+      "SCSS",
+    ],
+    image: jalBookClubCover,
+    imageAlt: "Omslagsbild för JAL Book Club",
+    githubUrl: "https://github.com/AlexJCodes/jal-book-club",
+    liveUrl: "https://jal-book-club-seven.vercel.app/",
   },
   {
     id: "temple-of-five",
